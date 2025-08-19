@@ -21,7 +21,7 @@ DICOMira is a modern web-based DICOM viewer built with React. It supports loadin
 Clone the repository and install dependencies:
 
 ```sh
-git clone https://github.com/yourusername/dicomira.git
+git clone https://github.com/ranjitkpaulraj/dicomira.git
 cd dicomira
 npm install
 ```
