@@ -1,0 +1,356 @@
+body {
+  background: linear-gradient( #1b2657 0%, #0d0e1b 100%);
+
+}
+
+/*
+ 4 fixed size boxes arranged in quadrant layout
+*/
+.quadrants{
+  position: relative;
+  width: 550px; 
+  height: 550px;
+  border-width: 5px;
+  border-style: solid;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+  border-color: #1b2657;
+  margin: 5px;
+}
+
+/* Within quadrants; sliceCanvas is in absolute.
+markers and coordinates are overlays for sliceCanvas*/
+.sliceCanvas{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  z-index: 1;
+}
+
+.markers{
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.coordinates{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 3;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: rgb(233, 214, 44);
+  pointer-events: none;
+}
+
+/* Top left quadrant contains general UI control itmes */
+.quadrant-topleft {
+  position: relative;
+  border: 4px solid transparent;
+  border-radius: 18px;
+  background: 
+    linear-gradient(rgb(53, 107, 209), rgb(234, 235, 238)) padding-box,
+    linear-gradient(135deg, #3ec6ff, #f9d923, #1b8fff) border-box;
+  box-shadow: 0 4px 24px #0002;
+  padding: 8px;
+}
+
+#loaderBox {
+  display: flex;
+  flex-direction: row;
+  border-style: groove;
+  border-color: #1b2657;
+  border-width: 5px;
+  justify-content: space-between;
+  color: white;
+  /* gap: 10px; */
+
+}
+
+#browseButton {
+  margin: 10px;
+  cursor: pointer;
+}
+
+#browseDicomDir {
+  display: none;
+}
+
+#selected_files{
+    color: white;
+    padding: 5px;
+}
+
+
+.context-menu {
+  position: fixed;
+  background: #222;
+  color: #fff;
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+  border-radius: 4px;
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.context-menu-item {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.context-menu-item:hover {
+  background: #444;
+}
+
+
+.slice-info-popup {
+  position: absolute;
+  background: rgba(28, 32, 48, 0.97); 
+  color: #f4f6fa;
+  padding: 24px 28px 20px 28px;
+  border-radius: 12px;
+  z-index: 2000;
+  min-width: 260px;
+  max-width: 420px;
+  box-shadow: 0 4px 24px #000a;
+  overflow: auto;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  border: 1px solid #2a3145;
+}
+
+.slice-info-popup-header {
+  cursor: move;
+  user-select: none;
+  margin-bottom: 12px;
+}
+
+.slice-info-popup h3 {
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin: 0;
+  background: none;
+  text-align: center;
+  font-size: 1.35em;
+  color: #3ec6ff;
+  border-bottom: 1.5px solid #2a3145;
+  padding-bottom: 4px;
+}
+
+.slice-info-table {
+  width: 100%;
+  color: #f4f6fa;
+  margin-top: 14px;
+  border-collapse: collapse;
+  font-size: 1em;
+}
+
+.slice-info-table tr:not(:last-child) td {
+  border-bottom: 1px solid #23283a;
+}
+
+.slice-info-key {
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 6px 10px 6px 0;
+  color: #3ec6ff;
+  width: 44%;
+  vertical-align: top;
+}
+
+.slice-info-value {
+  padding: 6px 0 6px 10px;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: #f4f6fa;
+  width: 56%;
+  word-break: break-word;
+}
+
+.slice-info-close {
+  margin-top: 18px;
+  padding: 6px 28px;
+  border-radius: 6px;
+  border: none;
+  background: linear-gradient(90deg, #3ec6ff 0%, #1b8fff 100%);
+  color: #fff;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 8px #0002;
+  transition: background 0.2s;
+}
+.slice-info-close:hover {
+  background: linear-gradient(90deg, #1b8fff 0%, #3ec6ff 100%);
+}
+
+.slice-info-resize-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  right: 2px;
+  bottom: 2px;
+  cursor: nwse-resize;
+  z-index: 10;
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.dicom-loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80px;
+  background: transparent;
+}
+
+.dicom-loader-outer {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  min-height: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;      
+  justify-content: flex-end;  
+  padding-top: 24px;           
+}
+
+.dicom-branding {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 100px;
+  z-index: 2;
+}
+
+.dicom-branding-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  gap: 10px;
+}
+
+.dicom-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px #0002;
+  margin-bottom: 0; /* remove margin if present */
+}
+
+.dicomira-title {
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.25em;
+  letter-spacing: 1px;
+  color: #3ec6ff;
+  text-align: left;
+  text-shadow: 0 2px 8px #0003;
+  margin: 0;
+}
+
+.dicom-loader-box {
+  background: rgba(28, 32, 48, 0.97);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #000a;
+  border: 1px solid #2a3145;
+  padding: 14px 38px 10px 18px; /* increased right padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 200px;
+  max-width: 320px;
+  margin-right: 32px; /* add space to the right */
+}
+
+.dicom-browse-btn {
+  background: linear-gradient(90deg, #3ec6ff 0%, #1b8fff 100%);
+  color: #fff;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 0.98em;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px #0002;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dicom-browse-btn:hover {
+  background: linear-gradient(90deg, #1b8fff 0%, #3ec6ff 100%);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.dicom-browse-icon {
+  font-size: 1.1em;
+  margin-right: 4px;
+}
+
+.dicom-files-loaded {
+  color: #3ec6ff;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  font-size: 0.95em;
+  margin-top: 6px;
+  margin-bottom: 0;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.dicom-loader-spinner {
+  border: 3px solid #3ec6ff;
+  border-top: 3px solid #1b8fff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  animation: dicom-spin 1s linear infinite;
+  margin-bottom: 8px;
+}
+@keyframes dicom-spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+
+
+.app-main-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.fullscreen {
+  z-index: 100;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  right: 2px;
+  bottom: 2px;
+  cursor:pointer;
+  background: transparent;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
